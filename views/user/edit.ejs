@@ -1,0 +1,227 @@
+<% include ../partials/header %>
+
+<div class="container" style="margin-top: 50px;">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <form class="form-horizontal" method="POST" action="/user/<%= user._id %>?_method=PUT" enctype="multipart/form-data">
+                <fieldset>
+                    <legend>User Profile Information</legend>
+                    <!-- File Button -->
+                    <div class="form-group">
+                        <div class="col-md-4"></div>
+                        <figure class=" col-md-4">
+                            <label for="file-upload" class="bg-profile-container">
+                                <img id="img-upload" class="img-circle img-responsive" alt="" src="<%= user.image_url %>" >
+                                <div class="overground img-circle img-responsive">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                            </label>
+                            
+                            <div class="input-group" style="display: none;">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                                 
+                                <input
+                                    id="file-upload" onchange="readURL(this);" value="<%= user.image_url %>"
+                                    accept="image/*" name="image_url" type="file" placeholder="provisional profile image"
+                                    class="form-control input-md"
+                                >
+                            </div>
+                            
+                        </figure>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="firstname">First Name</label>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                                <input id="firstname" value="<%= user.firstname %>" name="user[firstname]" type="text" placeholder="first name" class="form-control input-md">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="lastname">Last Name</label>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                                <input id="lastname" value="<%= user.lastname %>" name="user[lastname]" type="text" placeholder="last name" class="form-control input-md">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Textarea -->
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="description"></label>
+                        <div class="col-md-9">
+                            <textarea style="max-width: 90%; min-width: 90%;" class="form-control" rows="7" id="description" name="user[description]" placeholder="Write about you ..."><%= user.description %></textarea>
+                        </div>
+                    </div>
+
+                    <legend>Professional Informations</legend>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="occupation">Occupation</label>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-briefcase"></i>
+                                </div>
+                                <input id="occupation" value="<%= user.occupation %>" name="user[occupation]" type="text" placeholder="Your Current Occupation" class="form-control input-md">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="skills">Skills</label>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-graduation-cap"></i>
+                                </div>
+                                <input id="skills" type="text" placeholder="Skills" class="form-control input-md">
+                                <div id="plus_skill" class="input-group-addon">
+                                    <i style="color: green;" class="fas fa-plus-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <nav>
+                          <ul class="pager" id="skills_list">
+                            <% user.skills.forEach(function(skill){ %>
+                                <li><a class="show_to_delete"><%= skill %></a></li>
+                            <% }) %>
+                          </ul>
+                        </nav>
+                    </div>
+                    
+                    <input type="text" id="add_skill" class="show_info" name="user[skills]" value="<%= user.skills %>">
+                    
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="linkedin_link">Linkedin</label>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fab fa-linkedin"></i>
+                                </div>
+                                <input id="linkedin_link" value="<%= user.linkedin_link %>" name="user[linkedin_link]" type="text" placeholder="linkedin link" class="form-control input-md">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="lattes_link">Lattes</label>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fab fa-linkedin"></i>
+                                </div>
+                                <input id="lattes_link" value="<%= user.lattes_link %>" name="user[lattes_link]" type="text" placeholder="lattes link" class="form-control input-md">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="github_link">GitHub</label>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fab fa-github-square"></i>
+                                </div>
+                                <input id="github_link" value="<%= user.github_link %>" name="user[github_link]" type="text" placeholder="github link" class="form-control input-md">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <legend>Contact Me</legend> 
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="phone_number">Phone number </label>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-phone"></i>
+                                </div>
+                                <input id="phone_number" value="<%= user.phone_number %>" name="user[phone_number]" type="text" placeholder="write your phone number" class="form-control input-md">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="email">Email Address</label>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fas fa-envelope-open"></i>
+                                </div>
+                                <input id="email" name="user[email]" value="<%= user.email %>" type="text" placeholder="enter your email" class="form-control input-md">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="home_page_link">Your Page</label>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fas fa-address-card"></i>
+                                </div>
+                                <input id="home_page_link" value="<%= user.home_page_link %>" name="user[home_page_link]" type="text" placeholder="your personal page" class="form-control input-md">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label"></label>
+                        <div class="col-md-4">
+                            <button class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up"></span> Submit</button>
+                            <a href="/user/<%=user._id%>/edit" class="btn btn-danger" value=""><span class="glyphicon glyphicon-remove-sign"></span> Clear</a>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+
+<script>
+    document.querySelector("#add_skill").value += ("<%=user.skills%>" != "") ? ',' : ''
+    document.querySelector("#plus_skill").addEventListener('click', function(){
+        document.querySelector("#add_skill").value += document.querySelector("#skills").value + ','
+        document.querySelector("#skills_list").innerHTML += (
+            "<li><a class=\"show_to_delete\" href='#'>" + 
+            document.querySelector("#skills").value + 
+            "</a></li>"
+        )
+        document.querySelector("#skills").value = ''
+    });
+    document.getElementById("skills_list").addEventListener("click", function(e) {
+        // remove from input list
+        var str_temp = document.getElementById("add_skill").value
+        document.getElementById("add_skill").value = str_temp.replace(e.target.textContent + ',', '')
+        // remove from list itens
+        var list_itens = document.getElementById("skills_list").children
+        for(var i=0; i<list_itens.length; i++){
+            if(list_itens[i].textContent == e.target.textContent){
+                list_itens[i].style.display = "none";
+            }
+        }
+        console.log(list_itens)
+    });
+</script>
+<% include ../partials/footer %>

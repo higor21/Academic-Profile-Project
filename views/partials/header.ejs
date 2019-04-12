@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>YelpCamp</title>
+        <title>ViewProj</title>
         <!-- Make site responsive on mobile/tablet -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Latest compiled and minified CSS -->
@@ -36,7 +36,7 @@
     </head>
     <body>
         
-        <nav class="navbar navbar-default navbar-fixed-top">
+        <nav id="navbar_top" class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -69,7 +69,17 @@
                                 </div>
                             </div>
                         </li>
-                        <li><a href="/logout">Logout</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <img style="width: 20px;" class="img-circle img-responsive" alt="" src="<%= currentUser.image_url %>">
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                              <li><a href="/user/<%=currentUser._id%>">Profile View</a></li>
+                              <li><a href="/user/<%=currentUser._id%>/edit">Settings</a></li>
+                              <li role="separator" class="divider"></li>
+                              <li><a href="/logout">Logout</a></li>
+                            </ul>
+                        </li>
                     <% } %>
                   </ul>
                 </div>

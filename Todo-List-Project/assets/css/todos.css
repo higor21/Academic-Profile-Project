@@ -7,24 +7,24 @@ ul {
 
 h1 {
 	background: #2980b9;
-	color: white;
-	margin: 0;
 	padding: 10px 20px;
-	text-transform: uppercase;
-	font-size: 24px;
-	font-weight: normal;
+	font-size: 19px !important;
+	text-align: center;
+	color: white !important;
 }
-
 
 li {
-	background: #fff;
-	height: 40px;
 	line-height: 40px;
-	color: #666;
+	height: 40px;
+	color: white;
 }
 
-li:nth-child(2n){
-	background: #f7f7f7;
+li.item {
+	background: #4290c4;
+}
+
+li.sub_item {
+	background: #83badf;
 }
 
 span {
@@ -44,7 +44,8 @@ li:hover span.hf_angle {
 
 span.hf_plus {
 	width: 40px;
-	color: #2980b9;
+	color: white;
+	float: right;
 }
 
 span.hf_trash {
@@ -62,9 +63,7 @@ li:hover span.hf_trash {
 }
 
 input {
-	font-size: 18px;
-	color: #2980b9;
-	background-color: #f7f7f7;
+	color: #2980b9 !important;
 	width: 100%;
 	padding: 13px 13px 13px 20px;
 	box-sizing: border-box;
@@ -83,8 +82,3 @@ input:focus{
 	background: #f7f7f7;
 	box-shadow: 0 0 3px rgba(0,0,0, 0.1);
 }
-
-/*.completed {
-	color: gray;
-	text-decoration: line-through;
-}*/

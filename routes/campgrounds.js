@@ -26,8 +26,14 @@ router.put("/:id", middleware.checkCampgroundOwnership, function(req, res){
         if(!err){
             //console.log("\n\nOi: \n " + camp)
             res.redirect("/campgrounds/" + req.params.id)
-        }
-    })
+        } 
+    }) 
+})
+
+router.put("/:id/features_list", function(req, res){
+    console.log("deu cerr")
+    //console.log(JSON.parse(unescape(req.body.features_list)))
+    res.redirect("/campgrounds/" + req.params.id)
 })
 
 router.delete("/:id", middleware.checkCampgroundOwnership, function(req, res){
@@ -71,6 +77,7 @@ router.get("/:id", function(req, res) {
         if(err)
             res.send("Something went wrong!")
         else{
+            obj.features_list = escape(JSON.stringify(obj.features_list))
             res.render("campgrounds/show", {camp: obj})
         }
     })

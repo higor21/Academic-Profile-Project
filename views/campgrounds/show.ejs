@@ -3,16 +3,24 @@
 
 <div class="row">
     <div class="col-md-3">
-        <h1>Add Features to Project<i class="fa fa-plus" style="float: right;"></i></h1>
-    	<input type="text" id="add_item" placeholder="Add Item">
+        <h1 id="header_fl">Add Features to Project
+    	    <% if(currentUser && camp.author.id.equals(currentUser._id)){ %>
+                <i class="fa fa-plus" style="float: right;"></i>
+            <% } %>
+        </h1>
+    	<% if(currentUser && camp.author.id.equals(currentUser._id)){ %>
+    	    <input type="text" id="add_item" placeholder="Add Item">
+        <% } %>
         
     	<ul id="features_list">
     	</ul>
     	
-    	<form  id="features_list_form" action="/campgrounds/<%= camp._id %>/features_list?_method=PUT" method="POST">
-            <input type="text" name="features_list" id="data">
-            <button type="submit" class="btn btn-confirm">Send</button>
-        </form>
+    	<% if(currentUser && camp.author.id.equals(currentUser._id)){ %>
+        	<form  id="features_list_form" action="/campgrounds/<%= camp._id %>/features_list?_method=PUT" method="POST">
+                <input type="text" name="features_list" id="data" style="display: none;">
+                <button type="submit" class="btn btn-success pull-right">Save</button>
+            </form>
+        <% } %>
     </div>
     <div class="col-md-9">
         <div class="thumbnail">
@@ -67,5 +75,110 @@
         </div>
     </div>
 </div>
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous">
+</script>
+<script>
+    var itens = JSON.parse(unescape("<%=camp.features_list%>"))
+    
+    // ready
+    var reload_itens = function(){
+    	let i = 0, j;
+    	$('#features_list').empty()
+    	itens.forEach(elem => {
+    		let str = 	"<li class='item "+ i +"'>"+
+                            "<% if(currentUser && camp.author.id.equals(currentUser._id)){ %>" +
+    						    "<span class='hf_trash'><i class='fa fa-trash'></i></span>" +
+    						    elem.title +
+    						"<% }else{ %>" +
+    						    "<span style='margin-left: 20px;'>" +
+    						        elem.title +
+    						    "</span>" +
+    						"<% } %>" +
+    						"<% if(currentUser && camp.author.id.equals(currentUser._id)){ %>" +
+    						    "<span class='hf_plus'><i class='fa fa-plus'></i></span>" +
+    						"<% } %>" +
+    					"</li>" +
+    					"<% if(currentUser && camp.author.id.equals(currentUser._id)){ %>" +
+        					"<input id='add_subitem_"+ i +"' type='text' placeholder='Add SubItem'>" +
+						"<% } %>" 
+    		j = 0;
+    		elem.sub_itens.forEach(s_e => {
+    			str += 	"<li class='sub_item "+ i +"_"+ (j++) +"'>" + 
+    			            "<% if(currentUser && camp.author.id.equals(currentUser._id)){ %>" +
+    			                "<span class='hf_trash'><i class='fa fa-trash'></i></span>" +
+        						"<span class='hf_angle'><i class='fas fa-angle-right'></i></span>" +
+        						s_e.topic +
+    						"<% }else{ %>" +
+    						    "<span style='margin-left: 20px;'>" +
+    						        "<span class='hf_angle'><i class='fas fa-angle-right'></i></span>" +
+        						    s_e.topic +
+    						    "</span>" +
+    						"<% } %>" +
+    					"</li>"
+    		})
+    		i++;
+    		$("#features_list").append(str)
+    	})
+    }
+    
+    reload_itens()
+    // ready
+    var add_itens = function(obj, event){
+    	if(event.which === 13){
+    		//grabbing new todo text from input
+    		var todoText = $(obj).val();
+    		$(obj).val("");
+    		//create a new li and add to ul
+    		if(obj.id == "add_item")
+    			itens.push({ title: todoText, sub_itens: []})
+    		else{
+    			var index_si = parseInt(obj.id.split('_')[2])
+    			itens[index_si].sub_itens.push({topic: todoText})
+    		}
+    		reload_itens()
+    		$("#data")[0].value = escape(JSON.stringify(itens))
+    		
+    		console.log($("#data"))
+    	}
+    }
+    
+    // ready
+    $("#add_item").keypress(function(event){
+    	add_itens(this, event)
+    });
+    
+    
+    // ready
+    $("#features_list").on("keydown","[id*='add_subitem']", function(event){
+    	add_itens(this, event)
+    });
+    
+    // ready
+    $("#features_list").on("click", ".fa-plus", function(){
+    	var input_i = $(this).parent().parent()[0].className.split(' ')[1]
+    	$('#add_subitem_' + input_i).fadeToggle();
+    });
+    
+    $("h1 > .fa-plus").click(function(){
+    	$("#add_item").fadeToggle();
+    })
+    
+    // ready
+    $("#features_list").on("click", ".hf_trash", function(event){
+    	if($(this).parent()[0].className.split(' ')[0] == 'item'){
+    		pos = itens.map(e => {return e.title}).indexOf($(this).parent()[0].textContent)
+    		if(pos > -1) itens.splice(pos, 1)
+    	}else{
+    		item_i = parseInt($(this).parent()[0].className.split(' ')[1][0])
+    		subitem_i = parseInt($(this).parent()[0].className.split(' ')[1][2])
+    		itens[item_i].sub_itens.splice(subitem_i, 1);
+    	}
+    	reload_itens()
+    	$("#data")[0].value = escape(JSON.stringify(itens))
+    });
 
+</script>
 <% include ../partials/footer %>

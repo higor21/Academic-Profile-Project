@@ -30,10 +30,18 @@ router.put("/:id", middleware.checkCampgroundOwnership, function(req, res){
     }) 
 })
 
-router.put("/:id/features_list", function(req, res){
-    console.log("deu cerr")
-    //console.log(JSON.parse(unescape(req.body.features_list)))
-    res.redirect("/campgrounds/" + req.params.id)
+router.put("/:id/features_list", middleware.checkCampgroundOwnership, function(req, res){
+    Campground.findById(req.params.id, function(err, camp) {
+        if(!err){
+            camp.features_list = JSON.parse(unescape(req.body.features_list))
+            camp.save(function(err, camp_s){
+                if(err){
+                    return res.redirect('back')
+                }
+                res.redirect("/campgrounds/" + req.params.id)
+            })
+        }
+    })
 })
 
 router.delete("/:id", middleware.checkCampgroundOwnership, function(req, res){
@@ -78,6 +86,7 @@ router.get("/:id", function(req, res) {
             res.send("Something went wrong!")
         else{
             obj.features_list = escape(JSON.stringify(obj.features_list))
+            console.log(obj)
             res.render("campgrounds/show", {camp: obj})
         }
     })

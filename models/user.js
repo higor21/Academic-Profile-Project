@@ -14,6 +14,7 @@ var UserSchema = new mongoose.Schema({
     lattes_link: String,
     github_link: String,
     password: String,
+    bg_option: String,
     email: String,
     isAdmin: {type: Boolean, default: false},
     skills: []

@@ -1,9 +1,11 @@
         </div>
         
-        
-        <div id="bg_option">
-          <a href="/user/bg_option"><i class="far fa-image"></i></a>
-        </div>
+        <% if(currentUser) { %>
+            <div id="bg_option" class="trigger">
+              <i class="far fa-image"></i>
+            </div>
+            <% include ./model_bg %>
+        <% } %>
         
         <!-- jQuery CDN -->
         <script

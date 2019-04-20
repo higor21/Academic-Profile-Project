@@ -1,0 +1,39 @@
+<div class="modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <div class="row">
+            <h1 style="text-align: center;">Background Image</h1>
+            
+            <div style="width: 70%; margin: 25px auto;">
+                <form action="/user/<%=currentUser._id%>/edit_bg?_method=PUT" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input id="image" class="form-control" placeholder="image.extension" name="image" type="file" accept="image/*" required>
+                    </div>
+                    <div class="form-group" style="width: 30%;">
+                        <button class="btn btn-lg btn-primary btn-block">Submit!</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var modal = document.querySelector(".modal");
+    var trigger = document.querySelector(".trigger");
+    var closeButton = document.querySelector(".close-button");
+
+    function toggleModal() {
+        modal.classList.toggle("show-modal");
+    }
+
+    function windowOnClick(event) {
+        if (event.target === modal) {
+            toggleModal();
+        }
+    }
+
+    trigger.addEventListener("click", toggleModal);
+    closeButton.addEventListener("click", toggleModal);
+    window.addEventListener("click", windowOnClick);
+</script>

@@ -20,6 +20,7 @@ router.post("/register", function(req, res) {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email,
+        bg_option: "https://res.cloudinary.com/higor21/image/upload/v1555689147/bg_option.png",
         image_url: "https://bit.ly/2UjyPoN"
     })
     var msg = "Successfully Signed Up! Nice to meet you " + req.body.username;

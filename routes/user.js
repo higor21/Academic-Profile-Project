@@ -30,6 +30,11 @@ router.get("/:id", function(req, res){
 
 router.put("/:id", upload.single('image_url'), middleware.isLoggedIn, middleware.checkPermissionToEditUser , function(req, res){
     var current_user = req.body.user
+    User.findById(req.params.id, function(err, user) {
+        if(!err){
+            current_user.bg_option = user.bg_option
+        }
+    })
     if(req.file){
         cloudinary.uploader.upload(req.file.path, function(result) {
             current_user.image_url = result.secure_url;
@@ -38,6 +43,23 @@ router.put("/:id", upload.single('image_url'), middleware.isLoggedIn, middleware
     }else
         update_user(current_user, req, res)
     
+})
+
+router.put("/:id/edit_bg", upload.single('image'), middleware.isLoggedIn, middleware.checkPermissionToEditUser , function(req, res){
+    if(req.file){
+        cloudinary.uploader.upload(req.file.path, function(result) {
+            User.findById(req.params.id, function(err, user) {
+                if(!err){
+                    user.bg_option = result.secure_url
+                    user.save(function(err, user_s){
+                        if(err) console.log(err)
+                        return res.redirect('back')
+                    })
+                }  
+            })
+            
+        })
+    }
 })
 
 router.get("/:id/edit", middleware.isLoggedIn, middleware.checkPermissionToEditUser,function(req, res){

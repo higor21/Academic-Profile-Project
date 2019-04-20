@@ -10,9 +10,14 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="/stylesheet/app.css">
         <link rel="stylesheet" type="text/css" href="/stylesheet/featuresList.css">
+        <link rel="stylesheet" type="text/css" href="/stylesheet/model_bg.css">
         <script src="/js/app.js"></script>
     </head>
-    <body>
+    <% if(currentUser){ %>
+        <body style="background-image: url('<%= currentUser.bg_option %>')">
+    <% }else{ %>
+        <body>
+    <% } %>
         
         <nav id="navbar_top" class="navbar navbar-default navbar-fixed-top">
             <div class="container">

@@ -14,7 +14,7 @@
 	border-radius: 30px;
 }
 
-li {
+#features_list > li {
 	line-height: 40px;
 	height: 40px;
 	color: white;

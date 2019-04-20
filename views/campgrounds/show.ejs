@@ -25,7 +25,21 @@
         <div class="thumbnail">
             <img class="img-responsive" src=<%= camp.image %>>
             <div class="caption-full">
-                <h4 class="pull-right">$ <%= camp.price %>/night</h4>
+                <!--<h4 class="pull-right">$ <%= camp.price %>/night</h4>-->
+                <div class="stars pull-right">
+                  <form action="">
+                    <input class="star star-5" id="star-5" type="radio" name="star"/>
+                    <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                    <input class="star star-4" id="star-4" type="radio" name="star"/>
+                    <label class="star star-4" for="star-4"><i class="far fa-star"></i></label>
+                    <input class="star star-3" id="star-3" type="radio" name="star"/>
+                    <label class="star star-3" for="star-3"><i class="far fa-star"></i></label>
+                    <input class="star star-2" id="star-2" type="radio" name="star"/>
+                    <label class="star star-2" for="star-2"><i class="far fa-star"></i></label>
+                    <input class="star star-1" id="star-1" type="radio" name="star"/>
+                    <label class="star star-1" for="star-1"><i class="far fa-star"></i></label>
+                  </form>
+                </div>
                 <h4><a><%= camp.name %></a></h4>
                 <p> <%= camp.description %> </p>
                 <p>

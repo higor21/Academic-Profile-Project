@@ -8,7 +8,7 @@
             <% } %>
         </h1>
     	<% if(currentUser && camp.author.id.equals(currentUser._id)){ %>
-    	    <input type="text" id="add_item" placeholder="Add Item">
+    	    <input class='in_fl' type="text" id="add_item" placeholder="Add Item">
         <% } %>
         
     	<ul id="features_list">
@@ -16,7 +16,7 @@
     	
     	<% if(currentUser && camp.author.id.equals(currentUser._id)){ %>
         	<form  id="features_list_form" action="/campgrounds/<%= camp._id %>/features_list?_method=PUT" method="POST">
-                <input type="text" name="features_list" id="data" style="display: none;">
+                <input class='in_fl' type="text" name="features_list" id="data" style="display: none;">
                 <button type="submit" class="btn btn-success pull-right">Save</button>
             </form>
         <% } %>
@@ -103,30 +103,30 @@
     	itens.forEach(elem => {
     		let str = 	"<li class='item "+ i +"'>"+
                             "<% if(currentUser && camp.author.id.equals(currentUser._id)){ %>" +
-    						    "<span class='hf_trash'><i class='fa fa-trash'></i></span>" +
+    						    "<span class='sp_fl hf_trash'><i class='fa fa-trash'></i></span>" +
     						    elem.title +
     						"<% }else{ %>" +
-    						    "<span style='margin-left: 20px;'>" +
+    						    "<span class='sp_fl' style='margin-left: 20px;'>" +
     						        elem.title +
     						    "</span>" +
     						"<% } %>" +
     						"<% if(currentUser && camp.author.id.equals(currentUser._id)){ %>" +
-    						    "<span class='hf_plus'><i class='fa fa-plus'></i></span>" +
+    						    "<span class='sp_fl hf_plus'><i class='fa fa-plus'></i></span>" +
     						"<% } %>" +
     					"</li>" +
     					"<% if(currentUser && camp.author.id.equals(currentUser._id)){ %>" +
-        					"<input id='add_subitem_"+ i +"' type='text' placeholder='Add SubItem'>" +
+        					"<input class='in_fl' id='add_subitem_"+ i +"' type='text' placeholder='Add SubItem'>" +
 						"<% } %>" 
     		j = 0;
     		elem.sub_itens.forEach(s_e => {
     			str += 	"<li class='sub_item "+ i +"_"+ (j++) +"'>" + 
     			            "<% if(currentUser && camp.author.id.equals(currentUser._id)){ %>" +
-    			                "<span class='hf_trash'><i class='fa fa-trash'></i></span>" +
-        						"<span class='hf_angle'><i class='fas fa-angle-right'></i></span>" +
+    			                "<span class='hf_trash sp_fl'><i class='fa fa-trash'></i></span>" +
+        						"<span class='sp_fl hf_angle'><i class='fas fa-angle-right'></i></span>" +
         						s_e.topic +
     						"<% }else{ %>" +
-    						    "<span style='margin-left: 20px;'>" +
-    						        "<span class='hf_angle'><i class='fas fa-angle-right'></i></span>" +
+    						    "<span class='sp_fl' style='margin-left: 20px;'>" +
+    						        "<span class='sp_fl hf_angle'><i class='fas fa-angle-right'></i></span>" +
         						    s_e.topic +
     						    "</span>" +
     						"<% } %>" +

@@ -55,8 +55,8 @@ router.post("/", middleware.isLoggedIn , function(req, res){
                     comment.save()
                     camp.comments.push(comment)
                     camp.save(function(err, new_camp){
-                        if(!err)
-                            console.log("new comment: " + comment)
+                        if(!err){}
+                            //console.log("new comment: " + comment)
                     })
                     req.flash("success", "Successfully added comment!")
                     res.redirect("/campgrounds/" + req.params.id)

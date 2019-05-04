@@ -2,9 +2,12 @@
 
 <div class="row">
     <div class="col-md-3">
-        <h1 id="header_fl">Add Features to Project
+        <h1 id="header_fl">
     	    <% if(currentUser && camp.author.id.equals(currentUser._id)){ %>
+                Add Features to Project
                 <i class="fa fa-plus" style="float: right;"></i>
+            <% }else{ %>
+                Features of Project
             <% } %>
         </h1>
     	<% if(currentUser && camp.author.id.equals(currentUser._id)){ %>
@@ -25,22 +28,25 @@
         <div class="thumbnail">
             <img class="img-responsive" src=<%= camp.image %>>
             <div class="caption-full">
-                <!--<h4 class="pull-right">$ <%= camp.price %>/night</h4>-->
-                <div class="stars pull-right">
-                  <form action="">
-                    <input class="star star-5" id="star-5" type="radio" name="star"/>
-                    <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
-                    <input class="star star-4" id="star-4" type="radio" name="star"/>
-                    <label class="star star-4" for="star-4"><i class="far fa-star"></i></label>
-                    <input class="star star-3" id="star-3" type="radio" name="star"/>
-                    <label class="star star-3" for="star-3"><i class="far fa-star"></i></label>
-                    <input class="star star-2" id="star-2" type="radio" name="star"/>
-                    <label class="star star-2" for="star-2"><i class="far fa-star"></i></label>
-                    <input class="star star-1" id="star-1" type="radio" name="star"/>
-                    <label class="star star-1" for="star-1"><i class="far fa-star"></i></label>
-                  </form>
-                </div>
-                <h4><a><%= camp.name %></a></h4>
+                <% if(currentUser){ %>
+                    <div class="stars pull-right" style="text-align: center;">
+                        <label>Give your Opinion</label>
+                        <form action="/campgrounds/<%= camp._id %>/putStar?user=<%=currentUser._id%>&_method=PUT" method='POST' style="text-align: right;">
+                            <input class="star star-5" value='5' id="star-5" type="radio" name="star"/>
+                            <label class="star star-5" for="star-5"><i class="far fa-star"></i></label>
+                            <input class="star star-4" value='4' id="star-4" type="radio" name="star"/>
+                            <label class="star star-4" for="star-4"><i class="far fa-star"></i></label>
+                            <input class="star star-3" value='3' id="star-3" type="radio" name="star"/>
+                            <label class="star star-3" for="star-3"><i class="far fa-star"></i></label>
+                            <input class="star star-2" value='2' id="star-2" type="radio" name="star"/>
+                            <label class="star star-2" for="star-2"><i class="far fa-star"></i></label>
+                            <input class="star star-1" value='1' id="star-1" type="radio" name="star"/>
+                            <label class="star star-1" for="star-1"><i class="far fa-star"></i></label>
+                            <button type="submit" id="btn_stars">Send</button>
+                        </form>
+                    </div>
+                <% } %>
+                <h4 style="color: #337eb9;"><%= camp.name %><span class="star-score"><i class="fas fa-star"></i>&nbsp;<%= parseFloat(camp.score).toFixed(2) %></span></h4>
                 <p> <%= camp.description %> </p>
                 <p>
                     <em>Submitted by <a href="/user/<%= camp.author.id %>"> <%= camp.author.username %> </a>, <%= moment(camp.createdAt).fromNow() %></em>

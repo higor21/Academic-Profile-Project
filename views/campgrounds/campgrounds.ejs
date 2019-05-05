@@ -1,14 +1,32 @@
 <% include ../partials/header %>
 
-<header class="jumbotron">
-    <div>
-        <h1><i class="fas fa-campground"></i>Welcome To ViewProj</h1>
-        <p>View projects from all over the world!</p>
-        <p>
-            <a class="btn btn-primary btn-lg" href="/campgrounds/new">Add New Project</a>
-        </p>
+<header class="jumbotron welcome_h">
+    <div class="row">
+        <div class="col-md-9">
+            <h1><i style="color: #337ab7;" class="fas fa-terminal"></i>Welcome To ViewProj</h1>
+            <p>View projects from all over the world!</p>
+            <p>
+                <a class="btn btn-primary btn-lg" href="/campgrounds/new">Add New Project</a>
+            </p>
+        </div>
+        <div class="col-md-3">
+            <img src="../images/icons_bg_welc.png" class="img-responsive">
+        </div>
     </div>
 </header>
+
+<hr style="color: #337ab7;">
+<!-- <div>
+    <a><span>filter</span><span><i class="fas fa-filter"></i></span></a>
+    <hr>
+    <div id="info_user" class="panel panel-default">
+        <div style="padding: 3%;">
+            <label>Description: </label>
+            
+            <label>Skills: </label>
+        </div>
+    </div>
+</div> -->
 
 <div class="row" style="display:flex; flex-wrap: wrap;">
     <% camps.forEach(function(item){ %>

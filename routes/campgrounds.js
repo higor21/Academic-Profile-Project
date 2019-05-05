@@ -52,7 +52,7 @@ router.put("/:id_camp/putStar", middleware.isLoggedIn, function(req, res) {
             res.redirect('back')
         }
     })
-})
+}) 
 
 router.put("/:id/features_list", middleware.checkCampgroundOwnership, function(req, res){
     Campground.findById(req.params.id, function(err, camp) {

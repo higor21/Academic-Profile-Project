@@ -2,6 +2,40 @@
     padding: 9px;
 }
 
+.welcome_h {
+  background: #2980B9;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #FFFFFF, #6DD5FA, #2980B9);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #FFFFFF, #6DD5FA, #2980B9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.welcome_h > .row > div h1:first-child {
+  font-size: 400%;
+}
+
+.welcome_h > div.row div:first-child {
+  max-width: 100%;
+}
+
+.welcome_h > div.row div:last-child {
+  opacity: 1;
+  max-width: 100%;
+  transition: opacity 2s;
+  -ms-transition: opacity 2s;
+  -moz-transition: opacity 2s;
+  -webkit-transition: opacity 2s;
+}
+
+@media only screen and (max-width: 992px) {
+  .welcome_h > div.row div:first-child {
+    width: 100%;
+  }
+  
+  .welcome_h > div.row div:last-child {
+    opacity: 0;
+    max-width: 0px;
+  }
+}
+
 .img-responsive {
     width: 100%;
 }
@@ -132,10 +166,12 @@ opacity:0.9;
   border: 2px solid #60b0ff;
   border-radius: 5px;
   color: #60b0ff;
+  cursor: pointer;
 }
 
 .custom_link:hover {
   background-color: lightblue;
+  text-decoration: none;
   -webkit-transition: background-color 0.1s ease-in;
   -moz-transition: background-color 0.1s ease-in;
   -o-transition: background-color 0.1s ease-in;

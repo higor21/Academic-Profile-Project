@@ -114,7 +114,8 @@
             if(i.value != "")
                 b = true;
         })
-        document.querySelector('#btn_save_feat').disabled = b
+        if(document.querySelector('#btn_save_feat'))
+            document.querySelector('#btn_save_feat').disabled = b
     }
     
     able_to_sabe()

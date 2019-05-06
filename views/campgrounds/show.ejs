@@ -20,7 +20,7 @@
     	<% if(currentUser && camp.author.id.equals(currentUser._id)){ %>
         	<form  id="features_list_form" action="/campgrounds/<%= camp._id %>/features_list?_method=PUT" method="POST">
                 <input class='in_fl' type="text" name="features_list" id="data" style="display: none;">
-                <button type="submit" class="btn btn-success pull-right">Save</button>
+                <button id="btn_save_feat" type="submit" class="btn btn-success pull-right">Save</button>
             </form>
         <% } %>
     </div>
@@ -46,7 +46,13 @@
                         </form>
                     </div>
                 <% } %>
-                <h4 style="color: #337eb9;"><%= camp.name %><span class="star-score"><i class="fas fa-star"></i>&nbsp;<%= parseFloat(camp.score).toFixed(2) %></span></h4>
+                <h4 style="color: #337eb9;">
+                    <%= camp.name %>
+                    <span class="star-score">
+                        <i class="fas fa-star"></i>&nbsp;<%= parseFloat(camp.score).toFixed(2) %>
+                        <span style="color: #337eb9;">,</span>&nbsp;<%= camp.stars.length %>&nbsp;users
+                    </span>
+                </h4>
                 <p> <%= camp.description %> </p>
                 <p>
                     <em>Submitted by <a href="/user/<%= camp.author.id %>"> <%= camp.author.username %> </a>, <%= moment(camp.createdAt).fromNow() %></em>
@@ -101,6 +107,17 @@
 </script>
 <script>
     var itens = JSON.parse(unescape("<%=camp.features_list%>"))
+    
+    var able_to_sabe = function() {
+        var b = false;
+        document.querySelectorAll("#add_item, [id*='add_subitem']").forEach(i => {
+            if(i.value != "")
+                b = true;
+        })
+        document.querySelector('#btn_save_feat').disabled = b
+    }
+    
+    able_to_sabe()
     
     // ready
     var reload_itens = function(){
@@ -159,9 +176,9 @@
     		}
     		reload_itens()
     		$("#data")[0].value = escape(JSON.stringify(itens))
-    		
-    		console.log($("#data"))
     	}
+		//console.log($("#data")[0].value)
+		able_to_sabe()
     }
     
     // ready

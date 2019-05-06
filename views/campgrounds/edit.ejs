@@ -4,12 +4,12 @@
     <h1 style="text-align: center;">Editing the <%= camp.name %>!</h1>
     
     <div style="width: 30%; margin: 25px auto;">
-        <form action="/campgrounds/<%= camp._id %>?_method=PUT" method="POST">
+        <form action="/campgrounds/<%= camp._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <input class="form-control" placeholder="title" name="camp[name]" type="text" value="<%= camp.name %>">
             </div>
             <div class="form-group">
-                <input class="form-control" placeholder="url" name="camp[image]" type="text" value="<%= camp.image %>">
+                <input id="image" class="form-control" placeholder="image.extension" name="image" type="file" accept="image/*" required>
             </div>
             <div class="form-group">
                 <textarea style="min-width: 100%; max-width: 100%; min-height: 150px;" name="camp[description]"> <%= camp.description %> </textarea>

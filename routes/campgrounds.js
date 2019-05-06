@@ -21,13 +21,16 @@ router.get("/", function(req, res){
     })
 })
 
-router.put("/:id", middleware.checkCampgroundOwnership, function(req, res){
-    Campground.findByIdAndUpdate(req.params.id, req.body.camp, function(err, camp){
-        if(!err){
-            //console.log("\n\nOi: \n " + camp)
-            res.redirect("/campgrounds/" + req.params.id)
-        } 
-    }) 
+router.put("/:id", middleware.checkCampgroundOwnership, upload.single('image'), function(req, res){
+    cloudinary.uploader.upload(req.file.path, function(result) {
+        req.body.camp.image = result.secure_url
+        Campground.findByIdAndUpdate(req.params.id, req.body.camp, function(err, camp){
+            if(err){
+                console.log(err)
+            }else
+                res.redirect("/campgrounds/" + req.params.id)
+        })
+    });
 })
 
 router.put("/:id_camp/putStar", middleware.isLoggedIn, function(req, res) {
@@ -58,7 +61,6 @@ router.put("/:id/features_list", middleware.checkCampgroundOwnership, function(r
     Campground.findById(req.params.id, function(err, camp) {
         if(!err){
             camp.features_list = JSON.parse(unescape(req.body.features_list))
-            console.log(camp.features_list)
             camp.save(function(err, camp_s){
                 if(err){
                     return res.redirect('back')

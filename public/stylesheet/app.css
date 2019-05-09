@@ -115,7 +115,7 @@ opacity:0.9;
 
 .show_info.show {
   opacity: 1;
-  max-height: 300px;
+  max-height: 100em;
   transition: opacity 2s, max-height 1s;
   -ms-transition: opacity 2s, max-height 1s;
   -moz-transition: opacity 2s, max-height 1s;
@@ -195,6 +195,13 @@ opacity:0.9;
   box-shadow: 0px 0px 5px gray;
 }
 
+.login_register {
+  text-align: center;
+}
+
+#navbar_top a , .login_register {
+  color: #2e6da4;
+}
 
 #bg_option {
   position: fixed;
@@ -207,4 +214,8 @@ opacity:0.9;
   color: black;
 }
 
+/* SLIDER OF SHOW PAGE*/
 
+
+
+/* SLIDER OF SHOW PAGE*/

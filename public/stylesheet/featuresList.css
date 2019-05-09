@@ -5,10 +5,26 @@
 	padding: 0;
 }
 
+.p-0 {
+	padding: 0;
+}
+
+#hide_btn {
+	width: 36px;
+    height: 36px;
+    margin: 20px 0px 10px 7px;
+    padding: 8px;
+    font-size: 20px;
+    background: #d9534f;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+}
+
 #header_fl {
 	background: #2980b9;
 	padding: 10px 20px;
-	font-size: 19px !important;
+	font-size: 15px !important;
 	text-align: center;
 	color: white !important;
 	border-radius: 30px;

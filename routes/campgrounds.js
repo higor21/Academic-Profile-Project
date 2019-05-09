@@ -109,7 +109,7 @@ router.get("/:id", function(req, res) {
     // The 'populate("attribute").exec(function(vars ...){...})' serves to become "attribute" ids into their value
     Campground.findById(req.params.id).populate("comments").exec(function(err, obj){
         if(err)
-            res.send("Something went wrong!")
+            res.send("Something went wrong! -> err: " + err)
         else{
             obj.features_list = escape(JSON.stringify(obj.features_list))
             res.render("campgrounds/show", {camp: obj})

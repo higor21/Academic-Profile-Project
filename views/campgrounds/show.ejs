@@ -2,14 +2,21 @@
 
 <div class="row">
     <div class="col-md-3">
-        <h1 id="header_fl">
-    	    <% if(currentUser && camp.author.id.equals(currentUser._id)){ %>
-                Add Features to Project
-                <i class="fa fa-plus" style="float: right;"></i>
+        <div class="row" style="margin: 0;">
+            <% if(currentUser && camp.author.id.equals(currentUser._id)){ %>
+                <div class="col-md-10 p-0">
+                    <h1 id="header_fl">
+                        Add Features to Project
+                        <i class="fa fa-plus" style="float: right;"></i>
+                    </h1>
+                </div>
+                <div class="col-md-2 p-0"><i class="fas fa-compress-arrows-alt" id="hide_btn"></i></div>
             <% }else{ %>
-                Features of Project
+                <div class="col-md-12 p-0">
+                    <h1 id="header_fl">Features of Project</h1>
+                </div>
             <% } %>
-        </h1>
+        </div>
     	<% if(currentUser && camp.author.id.equals(currentUser._id)){ %>
     	    <input class='in_fl' type="text" id="add_item" placeholder="Add Item">
         <% } %>
@@ -26,7 +33,7 @@
     </div>
     <div class="col-md-9">
         <div class="thumbnail">
-            <img class="img-responsive" src=<%= camp.image %>>
+            <img id="img_slider" class="img-responsive" src=<%= camp.image %>>
             <div class="caption-full">
                 <% if(currentUser){ %>
                     <div class="stars pull-right" style="text-align: center;">
@@ -107,6 +114,8 @@
 </script>
 <script>
     var itens = JSON.parse(unescape("<%=camp.features_list%>"))
+    console.log("chegou: ")
+    console.log(itens)
     
     var able_to_sabe = function() {
         var b = false;
@@ -162,6 +171,7 @@
     }
     
     reload_itens()
+    
     // ready
     var add_itens = function(obj, event){
     	if(event.which === 13){
@@ -187,6 +197,20 @@
     	add_itens(this, event)
     });
     
+    $("#hide_btn").click(function(){
+        var size = $("[id *= 'add_subitem_']").length
+        var b = $("#hide_btn").attr('class').includes('expand')
+        for(var i=0; i<size; i++){
+            b ? $('#add_subitem_'+i).fadeIn() : $('#add_subitem_'+i).fadeOut()
+        }
+        if(b){
+            $("#hide_btn").removeClass('fa-expand-arrows-alt')
+            $("#hide_btn").addClass('fa-compress-arrows-alt')
+        }else{
+            $("#hide_btn").removeClass('fa-compress-arrows-alt')
+            $("#hide_btn").addClass('fa-expand-arrows-alt')
+        }
+    })
     
     // ready
     $("#features_list").on("keydown","[id*='add_subitem']", function(event){
@@ -216,6 +240,34 @@
     	reload_itens()
     	$("#data")[0].value = escape(JSON.stringify(itens))
     });
+    
+    // SHOW SLIDER
+    
+    var index = 0;
+    var length = 4 /* HERE STAY THE SIZE OF THE IMAGES SET*/;
+    var images = [];
+    
+    document.querySelector("#img_slider").setAttribute('src', imgs[0])
+    
+    document.querySelector("#show_right").addEventListener('click', function(){
+        if(index + 1 < length){
+            document.querySelector("#square").classList.remove("show_slider");
+            setTimeout(() => {
+                document.querySelector("#img_slider").setAttribute('src', imgs[++index])    
+                document.querySelector("#square").classList.add("show_slider");
+            }, 1000);
+        }
+    })
+    
+    document.querySelector("#show_left").addEventListener('click', function(){
+        if(index - 1 >= 0){
+            document.querySelector("#square").classList.remove("show_slider");
+            setTimeout(() => {
+                document.querySelector("#img_slider").setAttribute('src', imgs[--index])
+                document.querySelector("#square").classList.add("show_slider");
+            }, 1000)
+        }
+    })
 
 </script>
 <% include ../partials/footer %>

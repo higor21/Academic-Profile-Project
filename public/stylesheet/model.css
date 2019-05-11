@@ -1,4 +1,4 @@
-.modal {
+.modal, .n_img_modal {
     position: fixed;
     left: 0;
     top: 0;
@@ -21,7 +21,7 @@
     width: 44rem;
     border-radius: 0.5rem;
 }
-.close-button {
+.close-button, .n_img_close-button {
     float: right;
     width: 1.5rem;
     line-height: 1.5rem;
@@ -30,7 +30,7 @@
     border-radius: 0.25rem;
     background-color: lightgray;
 }
-.close-button:hover {
+.close-button:hover , .n_img_close-button:hover{
     background-color: darkgray;
 }
 .show-modal {
@@ -43,3 +43,24 @@
 .trigger {
     color: red;
 }
+
+/* model to new image */
+
+#n_img_option, #rm_img_option {
+    cursor: pointer;
+    position: absolute;
+    bottom: -30px;
+    font-size: 20px;
+}
+
+#n_img_option {
+    color: #007dc0;
+    right: 1%;
+}
+
+#rm_img_option {
+    color: #d41d00;
+    right: 4%;
+}
+
+/* model to new image */

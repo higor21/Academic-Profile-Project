@@ -1,0 +1,38 @@
+<div class="n_img_modal">
+    <div class="modal-content">
+        <span class="n_img_close-button">&times;</span>
+        <div class="row">
+            <h1 style="text-align: center;">New Image</h1>
+            <div style="width: 70%; margin: 25px auto;">
+                <form action="/campgrounds/<%= camp._id %>/addNewImg?_method=PUT" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input id="image" class="form-control" placeholder="image.extension" name="image" type="file" accept="image/*" required>
+                    </div>
+                    <div class="form-group" style="width: 30%;">
+                        <button class="btn btn-lg btn-primary btn-block">Submit!</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var n_img_modal = document.querySelector(".n_img_modal");
+    var n_img_trigger = document.querySelector(".n_img_trigger");
+    var n_img_closeButton = document.querySelector(".n_img_close-button");
+
+    function n_img_toggleModal() {
+        n_img_modal.classList.toggle("show-modal");
+    }
+
+    function n_img_windowOnClick(event) {
+        if (event.target === n_img_modal) {
+            n_img_toggleModal();
+        }
+    }
+
+    n_img_trigger.addEventListener("click", n_img_toggleModal);
+    n_img_closeButton.addEventListener("click", n_img_toggleModal);
+    window.addEventListener("click", n_img_windowOnClick);
+</script>

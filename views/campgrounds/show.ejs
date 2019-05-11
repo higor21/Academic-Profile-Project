@@ -33,7 +33,22 @@
     </div>
     <div class="col-md-9">
         <div class="thumbnail">
-            <img id="img_slider" class="img-responsive" src=<%= camp.image %>>
+            <div style="position: relative; margin-bottom: 30px;">
+                <img id="img_slider" class="img-responsive show_slider show_info_slider" src=<%= camp.image %>>
+                <img src="../images/arrow_left.png" id="show_left">
+                <img src="../images/arrow_right.png" id="show_right">
+                <!-- have to do alterations here -->
+                <% if(currentUser && camp.author.id.equals(currentUser._id)) { %>
+                    <form  id="rm_img_option" action="/campgrounds/<%= camp._id %>/rm_img?_method=PUT" method="POST">
+                        <input class='in_rm_img hide_content' type="text" name="img_to_rm">
+                        <button type="submit" class="" style="background: none; border: none;"><i class="far fa-minus-square"></i></button>
+                    </form>
+                    <div id="n_img_option" class="n_img_trigger">
+                      <i class="fas fa-upload"></i>
+                    </div>
+                    <% include ../partials/model_addImg %>
+                <% } %>
+            </div>
             <div class="caption-full">
                 <% if(currentUser){ %>
                     <div class="stars pull-right" style="text-align: center;">
@@ -114,8 +129,6 @@
 </script>
 <script>
     var itens = JSON.parse(unescape("<%=camp.features_list%>"))
-    console.log("chegou: ")
-    console.log(itens)
     
     var able_to_sabe = function() {
         var b = false;
@@ -244,27 +257,47 @@
     // SHOW SLIDER
     
     var index = 0;
-    var length = 4 /* HERE STAY THE SIZE OF THE IMAGES SET*/;
-    var images = [];
+    var imgs = JSON.parse(unescape("<%=camp.images_list%>"))
+    var length = imgs.length;
     
-    document.querySelector("#img_slider").setAttribute('src', imgs[0])
+    var verify_arrows = function(){
+        if(index == length - 1)
+            $("#show_right").fadeOut();
+        else
+            $("#show_right").fadeIn();
+        if(index == 0){
+            $("#show_left").fadeOut();
+            $("#rm_img_option").fadeOut();
+        }else{
+            $("#show_left").fadeIn();
+            $("#rm_img_option").fadeIn();
+        }
+    }
+    
+    verify_arrows()
     
     document.querySelector("#show_right").addEventListener('click', function(){
         if(index + 1 < length){
-            document.querySelector("#square").classList.remove("show_slider");
+            document.querySelector("#img_slider").classList.remove("show_slider");
+            index++;
+            document.querySelector(".in_rm_img").value = imgs[index]
+            verify_arrows()
             setTimeout(() => {
-                document.querySelector("#img_slider").setAttribute('src', imgs[++index])    
-                document.querySelector("#square").classList.add("show_slider");
+                document.querySelector("#img_slider").setAttribute('src', imgs[index])    
+                document.querySelector("#img_slider").classList.add("show_slider");
             }, 1000);
         }
     })
     
     document.querySelector("#show_left").addEventListener('click', function(){
         if(index - 1 >= 0){
-            document.querySelector("#square").classList.remove("show_slider");
+            document.querySelector("#img_slider").classList.remove("show_slider");
+            index--;
+            document.querySelector(".in_rm_img").value = imgs[index]
+            verify_arrows()
             setTimeout(() => {
-                document.querySelector("#img_slider").setAttribute('src', imgs[--index])
-                document.querySelector("#square").classList.add("show_slider");
+                document.querySelector("#img_slider").setAttribute('src', imgs[index])
+                document.querySelector("#img_slider").classList.add("show_slider");
             }, 1000)
         }
     })

@@ -23,12 +23,63 @@ router.get("/", function(req, res){
 
 router.put("/:id", middleware.checkCampgroundOwnership, upload.single('image'), function(req, res){
     cloudinary.uploader.upload(req.file.path, function(result) {
-        req.body.camp.image = result.secure_url
-        Campground.findByIdAndUpdate(req.params.id, req.body.camp, function(err, camp){
+        Campground.findById(req.params.id, function(err, camp){
             if(err){
                 console.log(err)
-            }else
-                res.redirect("/campgrounds/" + req.params.id)
+                res.send("error: " + err + "\n\nPLEASE, contact the administer about the error")
+            }else{
+                camp.image = result.secure_url
+                if(!camp.images_list) 
+                    camp.images_list = []
+                camp.images_list.push(result.secure_url)
+                camp.save(function(err, camp_s){
+                    if(err){
+                        console.log(err)
+                    }
+                    return res.redirect("/campgrounds/" + req.params.id)
+                })
+            }
+        })
+    });
+})
+
+router.put("/:id/rm_img", middleware.checkCampgroundOwnership, function(req, res){
+    // another option: cloudinary.v2.uploader.destroy(req.body.img_to_rm
+    cloudinary.v2.api.delete_resources([req.body.img_to_rm],function(error, result){
+        console.log(result);
+        Campground.findById(req.params.id, function(err, camp){
+            if(err){
+                console.log('find error: ' + err)
+            }else{
+                var index = camp.images_list.indexOf(req.body.img_to_rm)
+                if(index != -1)
+                    camp.images_list.splice(index, 1);
+                console.log(camp.images_list)
+                camp.save(function(err, camp_s){
+                    if(err){
+                        console.log('save error: ' + err)
+                    }
+                    return res.redirect("/campgrounds/" + req.params.id)
+                })
+            }
+        })
+    });
+})
+
+router.put("/:id/addNewImg", middleware.checkCampgroundOwnership, upload.single('image'), function(req, res){
+    cloudinary.uploader.upload(req.file.path, function(result) {
+        Campground.findById(req.params.id, function(err, camp){
+            if(err){
+                console.log(err)
+            }else{
+                camp.images_list.push(result.secure_url)
+                camp.save(function(err, camp_s){
+                    if(err){
+                        console.log(err)
+                    }
+                    return res.redirect("/campgrounds/" + req.params.id)
+                })
+            }
         })
     });
 })
@@ -81,11 +132,10 @@ router.delete("/:id", middleware.checkCampgroundOwnership, function(req, res){
 
 router.post("/", middleware.isLoggedIn, upload.single('image') , function(req, res){
     cloudinary.uploader.upload(req.file.path, function(result) {
-        //console.log(result)
-        
         Campground.create({
             name: req.body.name,
             image: result.secure_url,
+            images_list: [result.secure_url],
             description: req.body.description,
             author: {
                 id: req.user._id,
@@ -95,6 +145,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image') , function(req, r
             if(err)
                 res.send("Something went wrong");
             else{
+                console.log(camp)
                 res.redirect("/campgrounds")
             }
         })
@@ -112,6 +163,7 @@ router.get("/:id", function(req, res) {
             res.send("Something went wrong! -> err: " + err)
         else{
             obj.features_list = escape(JSON.stringify(obj.features_list))
+            obj.images_list = escape(JSON.stringify(obj.images_list))
             res.render("campgrounds/show", {camp: obj})
         }
     })
